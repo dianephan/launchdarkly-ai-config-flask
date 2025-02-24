@@ -73,9 +73,6 @@ def generate_text():
 
 
 if __name__ == "__main__":
-    # result = generate()
-    # print(result)
-
     try:
         app.run(debug=True)
     except KeyboardInterrupt:
