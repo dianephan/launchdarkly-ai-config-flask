@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generate a letter of reference</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+
+    <div class="formContainer">
+      <h1>📚 Lesson Plan Generator 📚</h1>
+      <form id="generateForm">
+        <button type="submit">Generate Lesson Plan</button>
+      </form>
+      <div id="loading" style="display: none; text-align: center; margin: 1rem;">
+        <p>Generating your lesson plan... Please wait.</p>
+      </div>
+      <div id="result" class="result-container" style="white-space: pre-wrap"></div>
+    </div>
+
+    <script>
+      document.getElementById('generateForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        6
+        // Show loading message
+        document.getElementById('loading').style.display = 'block';
+        // Clear previous results
+        document.getElementById('result').textContent = '';
+
+        try {
+          const response = await fetch('/generate');
+          const text = await response.text();
+          
+          // Hide loading message
+          document.getElementById('loading').style.display = 'none';
+          // Parse the JSON response
+          const data = JSON.parse(text);
+          // Format the text by removing brackets and replacing \n with line breaks
+          data.text = data.text.replace(/\[.*?\]/g, '').replace(/\\n/g, '\n');
+          // Display just the text content in a readable format
+          document.getElementById('result').textContent = data.text;
+          document.getElementById('result').textContent = text;
+        } catch (error) {
+          console.error('Error:', error);
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('result').textContent = 'An error occurred while generating the lesson plan.';
+        }
+      });
+    </script>
+
+
+
+  </body>
+</html>
