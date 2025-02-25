@@ -22,7 +22,7 @@
     <script>
       document.getElementById('generateForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        6
+        
         // Show loading message
         document.getElementById('loading').style.display = 'block';
         // Clear previous results
@@ -32,13 +32,10 @@
           const response = await fetch('/generate');
           const text = await response.text();
           
-          // Hide loading message
           document.getElementById('loading').style.display = 'none';
-          // Parse the JSON response
           const data = JSON.parse(text);
           // Format the text by removing brackets and replacing \n with line breaks
           data.text = data.text.replace(/\[.*?\]/g, '').replace(/\\n/g, '\n');
-          // Display just the text content in a readable format
           document.getElementById('result').textContent = data.text;
           document.getElementById('result').textContent = text;
         } catch (error) {
@@ -48,8 +45,5 @@
         }
       });
     </script>
-
-
-
   </body>
 </html>

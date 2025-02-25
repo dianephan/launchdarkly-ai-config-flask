@@ -7,6 +7,9 @@ from ldai.client import LDAIClient, AIConfig, ModelConfig, LDMessage, ProviderCo
 from dotenv import load_dotenv
 from flask import Flask, jsonify, render_template
 
+import json
+import re
+
 app = Flask(__name__)
 load_dotenv()
 
@@ -63,12 +66,7 @@ def index():
 @app.route("/generate", methods=["GET"])
 def generate_text():
     response = generate()
-    # Clean up the response text for better readability
     cleaned_text = response.choices[0].message.content
-    cleaned_text = cleaned_text.replace('[', '').replace(']', '')  # Remove brackets
-    cleaned_text = cleaned_text.replace('\\n', '\n')  # Fix newlines
-    cleaned_text = '\n\n'.join(filter(None, cleaned_text.split('\n')))  # Normalize line breaks
-    cleaned_text = cleaned_text.strip()  # Remove extra whitespace
     return jsonify({"text": cleaned_text})
 
 
