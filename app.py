@@ -17,10 +17,10 @@ load_dotenv()
 ldclient.set_config(Config(os.getenv("LAUNCHDARKLY_SDK_KEY")))  
 ld_ai_client = LDAIClient(ldclient.get())  
 
-openai_client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# openai_client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # use the following client for openrouter / deepseek
-client = openai.OpenAI(
+openrouter_client = openai.OpenAI(
   base_url="https://openrouter.ai/api/v1",
   api_key=os.getenv("OPENROUTER_API_KEY"),
 )
@@ -48,7 +48,7 @@ def generate(options=None):
     messages = [] if config_value.messages is None else config_value.messages
     messages_dict=[message.to_dict() for message in messages]
 
-    completion = client.chat.completions.create(
+    completion = openrouter_client.chat.completions.create(
             # deepseek chat is not a valid model. have to change to deepseek/deepseek-r1:free from router
             model="deepseek/deepseek-r1:free",
             messages=messages_dict,
